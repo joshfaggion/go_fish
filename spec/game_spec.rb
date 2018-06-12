@@ -14,6 +14,7 @@ describe '#game?' do
   it 'should run a round' do
     num_of_players = 3
     game = Game.new(num_of_players)
-    
+    player1 = game.find_player(1)
+    player2 = game.find_player(2)
   end
 end
