@@ -12,16 +12,16 @@ describe '#card_deck?' do
     deck = CardDeck.new()
     deck.shuffle()
     cards = []
-    deck.cards_left.times { cards.push(deck.play_top_card) }
+    deck.cards_left.times { cards.push(deck.use_top_card) }
     standard_cards = []
     standard_deck = CardDeck.new
-    standard_deck.cards_left.times { standard_cards.push(deck.play_top_card) }
+    standard_deck.cards_left.times { standard_cards.push(deck.use_top_card) }
     expect(cards).to_not eq(standard_cards)
   end
 
   it 'should take one card and leave fifty-one' do
     deck = CardDeck.new()
-    deck.play_top_card
+    deck.use_top_card
     expect(deck.cards_left).to eq 51
   end
 end

@@ -22,7 +22,7 @@ class CardDeck
     @cards.length
   end
 
-  def play_top_card
+  def use_top_card
     @cards.shift()
   end
 end
