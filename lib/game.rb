@@ -46,12 +46,14 @@ class Game
     end
   end
 
+# Finish fixing all the encapsulation.
+
   def next_turn
     # Changes the turn to the next player.
     if turn < players_array.length
-      turn += 1
+      @turn += 1
     else
-      turn = 1
+      @turn = 1
     end
   end
 
@@ -104,10 +106,6 @@ class Game
 
   def players_array
     @players_array
-  end
-
-  def turn
-    @turn
   end
 
   def deck
