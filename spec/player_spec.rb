@@ -33,4 +33,11 @@ describe '#player?' do
     player1.take_card(player2.card_in_hand(desired_rank))
     expect(player1.cards_left).to eq 2
   end
+
+  it 'should pair his cards together' do
+    player1 = Player.new()
+    player1.set_hand([PlayingCard.new('10', 'Spades'), PlayingCard.new("10", "Hearts"), PlayingCard.new("10", "Clubs"), PlayingCard.new("10", "Diamonds")])
+    player1.pair_cards()
+    expect(player1.cards_left).to eq 0
+  end
 end

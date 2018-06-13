@@ -1,7 +1,6 @@
 require 'rspec'
 require 'pry'
 require 'request'
-require 'json'
 
 describe '#request?' do
   let(:request) {request = Request.new(player1, '7', player2)}

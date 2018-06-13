@@ -25,4 +25,8 @@ class CardDeck
   def use_top_card
     @cards.shift()
   end
+
+  def clear_deck
+    @cards = []
+  end
 end

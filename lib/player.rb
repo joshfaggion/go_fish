@@ -1,10 +1,12 @@
 require 'pry'
 require_relative 'playing_card'
 
-class Player
 
+class Player
+  attr_reader :points
   def initialize
     @player_hand = []
+    @points = 0
   end
 
   def set_hand(deck)
@@ -21,6 +23,7 @@ class Player
       if chosen_rank == card.rank
         matching_card = card
         @player_hand.delete(card)
+
         return matching_card
       end
     end
@@ -32,5 +35,22 @@ class Player
 
   def take_card(card)
     @player_hand.push(card)
+  end
+
+  def pair_cards
+    matches = []
+    @player_hand.each do |card|
+      @player_hand.each do |deep_card|
+        if deep_card.rank == card.rank
+          matches.push(deep_card)
+        end
+      end
+      if matches.length == 4
+        @points+=1
+        matches.each do |target|
+          @player_hand.delete(target)
+        end
+      end
+    end
   end
 end
