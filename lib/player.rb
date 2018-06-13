@@ -3,7 +3,7 @@ require_relative 'playing_card'
 
 
 class Player
-  attr_reader :points
+  attr_reader :points, :player_hand
   def initialize
     @player_hand = []
     @points = 0

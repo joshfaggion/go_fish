@@ -5,28 +5,24 @@ require 'response'
 require 'card_deck'
 
 class Game
-  attr_reader :turn, :deck
+  attr_reader :turn, :deck, :players_array
   def initialize(num_of_players)
     @turn = 1
     @players_array = []
     @game_winner = ''
     @deck = CardDeck.new()
+    @deck.shuffle
     num_of_players.times do
       @players_array.push(Player.new)
     end
   end
 
-  def distribute_deck
-    @players_array.each do |player|
-      5.times do
-        player.take_card(@deck.use_top_card)
-      end
-    end
+  def begin_game
+    distribute_deck
   end
 
-
   def find_player(desired_player)
-    @players_array[desired_player - 1]
+    players_array[desired_player - 1]
   end
 
   def run_round(json_request)
@@ -50,31 +46,31 @@ class Game
   end
 
   def next_turn
-    if @turn < @players_array.length
-      @turn += 1
+    if turn < players_array.length
+      turn += 1
     else
-      @turn = 1
+      turn = 1
     end
   end
 
   def card_refills
-    @players_array.each do |player|
+    players_array.each do |player|
       if player.cards_left == 0
         5.times do
-          if @deck.cards_left == 0
+          if deck.cards_left == 0
             return nil
           end
-          player.take_card(@deck.use_top_card)
+          player.take_card(deck.use_top_card)
         end
       end
     end
   end
 
   def winner?
-    if @deck.cards_left > 0 || @deck == nil
+    if deck.cards_left > 0 || deck == nil
       return false
     end
-    @players_array.each do |player|
+    players_array.each do |player|
       unless player.cards_left < 1
         return false
       end
@@ -85,7 +81,7 @@ class Game
   def who_is_winner
     high_score = 0
     highest_player = ''
-    @players_array.each do |player|
+    players_array.each do |player|
       if player.points > high_score
         high_score = player.points
         highest_player = player
@@ -98,6 +94,28 @@ class Game
   end
 
   def clear_deck
-    @deck.clear_deck
+    deck.clear_deck
+  end
+
+  def players_array
+    @players_array
+  end
+
+  def turn
+    @turn
+  end
+
+  def deck
+    @deck
+  end
+
+  private
+
+  def distribute_deck
+    players_array.each do |player|
+      5.times do
+        player.take_card(deck.use_top_card)
+      end
+    end
   end
 end

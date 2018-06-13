@@ -7,7 +7,7 @@ describe '#game?' do
   it 'should distribute the deck and start the game' do
     num_of_players = 2
     game = Game.new(num_of_players)
-    game.distribute_deck()
+    game.begin_game
     player = game.find_player(1)
     expect(player.cards_left).to eq 5
   end
