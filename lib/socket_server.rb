@@ -12,6 +12,7 @@ class SocketServer
   end
 
   def accept_new_client(client='Random Player')
+    # This will welcome the players, and direct them to the lobby.
     lobby_existing = lobbies.last[2]
     num_of_players = lobbies.last[0]
     joined_players = lobbies.last[1]
@@ -48,6 +49,7 @@ class SocketServer
   end
 
   def create_game(num_of_players)
+      # This is only called if game lobby is full and confirmed.
       game = Game.new(num_of_players)
       game.begin_game
       games.store(game, pending_clients.shift(num_of_players))
@@ -63,11 +65,13 @@ class SocketServer
   end
 
   def set_player_hand(player, cards, game)
+    # For testing purposes.
     player = game.find_player(player)
     player.set_hand(cards)
   end
 
   def show_player_cards(game)
+    # Shows the player his cards.
     clients = games[game]
     clients.each do |client|
       client_num = clients.index(client)
@@ -79,11 +83,13 @@ class SocketServer
   end
 
   def run_round(request, game)
+    # Runs a round, and makes a response object.
     response = game.run_round(request)
     return response
   end
 
   def get_request(game)
+    # Checks to see if a request is ready. If request, make object.
     sleep(0.1)
     clients = games[game]
     turn = game.turn - 1

@@ -26,6 +26,7 @@ class Game
   end
 
   def run_round(json_request)
+    # Turns the json into a normal request object, then returns a response.
     request = Request.from_json(json_request)
     original_fisher = request.fisher
     desired_rank = request.rank
@@ -46,6 +47,7 @@ class Game
   end
 
   def next_turn
+    # Changes the turn to the next player.
     if turn < players_array.length
       turn += 1
     else
@@ -54,6 +56,7 @@ class Game
   end
 
   def card_refills
+    # If the cards are zero, then fill em up!
     players_array.each do |player|
       if player.cards_left == 0
         5.times do
@@ -67,6 +70,7 @@ class Game
   end
 
   def winner?
+    # Returns a boolean checking to see if everything is empty.
     if deck.cards_left > 0 || deck == nil
       return false
     end
@@ -79,6 +83,7 @@ class Game
   end
 
   def who_is_winner
+    # Returns which player is the winner.
     high_score = 0
     highest_player = ''
     players_array.each do |player|
