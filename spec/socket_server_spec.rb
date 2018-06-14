@@ -52,10 +52,9 @@ describe '#SocketServer' do
       @server.accept_new_client
       client3 = MockSocketClient.new(@server.port_number)
       @clients.push(client3)
-      @server.accept_new_client
+      game = @server.accept_new_client
       client1.take_in_output
       client2.take_in_output
-      game = @server.create_game(num_of_players)
       @server.set_player_hand(1, [PlayingCard.new('10', "Clubs"), PlayingCard.new('5', "Clubs")], game)
       @server.set_player_hand(2, [PlayingCard.new('Queen', "Hearts"), PlayingCard.new('Ace', "Diamonds")], game)
       @server.show_player_cards(game)

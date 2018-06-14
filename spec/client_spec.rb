@@ -74,9 +74,35 @@ describe '#client?' do
     client3 = Client.new(port_number)
     @server.accept_new_client
     response = Response.new(2, '8', 1, true, '8 of Spades')
-    expect(client1.use_response(response)).to eq ("Player 2 took the 8 of Spades from you!")
+    output1 = client1.take_in_output
+    output2 = client2.take_in_output
+    output3 = client3.take_in_output
+    client1.set_player_id(output1)
+    client2.set_player_id(output2)
+    client3.set_player_id(output3)
     expect(client2.use_response(response)).to eq ("You were correct! You took the 8 of Spades from Player 1.")
+    expect(client1.use_response(response)).to eq ("Player 2 took the 8 of Spades from you!")
     expect(client3.use_response(response)).to eq ("Player 2 took the 8 of Spades from Player 1.")
+  end
+
+  it 'should return the correct go fish responses' do
+    @server.create_game_lobby(3)
+    client1 = Client.new(port_number)
+    @server.accept_new_client
+    client2 = Client.new(port_number)
+    @server.accept_new_client
+    client3 = Client.new(port_number)
+    @server.accept_new_client
+    response = Response.new(3, 'Jack', 2, false, 'Jack of Spades')
+    output1 = client1.take_in_output
+    output2 = client2.take_in_output
+    output3 = client3.take_in_output
+    client1.set_player_id(output1)
+    client2.set_player_id(output2)
+    client3.set_player_id(output3)
+    expect(client2.use_response(response)).to eq ("Player 3 asked if you had a Jack, but luckily, you do not have one.")
+    expect(client1.use_response(response)).to eq ("Player 3 asked Player 2 for a Jack, but he did not have one.")
+    expect(client3.use_response(response)).to eq ("I'm sorry, but Player 2 did not have the card you asked for. Go Fish!")
   end
 end
 

@@ -1,7 +1,7 @@
 require 'pry'
 require 'socket'
-require 'game'
-require 'request'
+require_relative 'game'
+require_relative 'request'
 
 
 class SocketServer
@@ -13,27 +13,31 @@ class SocketServer
 
   def accept_new_client(client='Random Player')
     # This will welcome the players, and direct them to the lobby.
-    lobby_existing = lobbies.last[2]
+    lobby_complete = lobbies.last[2]
     num_of_players = lobbies.last[0]
     joined_players = lobbies.last[1]
     client_connection = server.accept_nonblock
     pending_clients.push(client_connection)
-    if lobby_existing == false
+    if lobby_complete == false
       if num_of_players > pending_clients.length
         client_connection.puts ["Welcome, we are currently waiting for more players. You are Player #{joined_players + 1}.", joined_players]
         # For some reason I can't use joined_players here. Food for thought.
         lobbies.last[1] += 1
+        return false
       else
          client_connection.puts ["Welcome, a game lobby is complete! You are Player #{joined_players + 1}.", joined_players]
-         lobby_existing = true
+         lobby_complete = true
+         return create_game(3)
       end
     else
-      client_connection.puts "Creating a lobby... You are Player One."
-      create_game_lobby(4)
+      client_connection.puts "Creating New Lobby... You are Player One."
+      create_game_lobby(3)
       joined_players += 1
+      return false
     end
   rescue IO::WaitReadable, Errno::EINTR
     sleep(0.1)
+    return false
   end
 
   def start
@@ -106,6 +110,7 @@ class SocketServer
   def server
     @server
   end
+
 end
 
 

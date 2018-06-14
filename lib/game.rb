@@ -1,8 +1,8 @@
-require 'player'
+require_relative 'player'
 require 'pry'
-require 'request'
-require 'response'
-require 'card_deck'
+require_relative 'request'
+require_relative 'response'
+require_relative 'card_deck'
 
 class Game
   attr_reader :turn, :deck, :players_array
@@ -37,7 +37,7 @@ class Game
     if card == "Go Fish!"
       next_turn
       card_refills
-      return Response.new(original_fisher, desired_rank, original_target, false).to_json
+      return Response.new(original_fisher, desired_rank, original_target, false, "Go Fish!").to_json
     else
       fisher.take_card(card)
       fisher.pair_cards
