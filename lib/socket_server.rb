@@ -20,10 +20,11 @@ class SocketServer
     pending_clients.push(client_connection)
     if lobby_existing == false
       if num_of_players > pending_clients.length
-        client_connection.puts "Welcome, we are currently waiting for more players. You are Player #{joined_players + 1}."
+        client_connection.puts ["Welcome, we are currently waiting for more players. You are Player #{joined_players + 1}.", joined_players]
+        # For some reason I can't use joined_players here. Food for thought.
         lobbies.last[1] += 1
       else
-         client_connection.puts "Welcome, a game lobby is complete! You are Player #{joined_players + 1}."
+         client_connection.puts ["Welcome, a game lobby is complete! You are Player #{joined_players + 1}.", joined_players]
          lobby_existing = true
       end
     else
@@ -86,20 +87,6 @@ class SocketServer
     # Runs a round, and makes a response object.
     response = game.run_round(request)
     return response
-  end
-
-  def get_request(game)
-    # Checks to see if a request is ready. If request, make object.
-    sleep(0.1)
-    clients = games[game]
-    turn = game.turn - 1
-    current_client = clients[turn]
-    string_request = current_client.read_nonblock(100)
-    regex = /(player\d).*\s(\w+)/i
-    matches = string_request.match(regex)
-    return Request.new(game.turn, matches[2].downcase, matches[1][-1].to_i)
-  rescue
-    request = 'Nothing here. :('
   end
 
   private

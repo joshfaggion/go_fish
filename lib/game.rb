@@ -37,12 +37,12 @@ class Game
     if card == "Go Fish!"
       next_turn
       card_refills
-      return Response.new(original_fisher, desired_rank, original_target, false)
+      return Response.new(original_fisher, desired_rank, original_target, false).to_json
     else
       fisher.take_card(card)
       fisher.pair_cards
       card_refills
-      return Response.new(original_fisher, desired_rank, original_target, true, "#{card.string_value}")
+      return Response.new(original_fisher, desired_rank, original_target, true, "#{card.string_value}").to_json
     end
   end
 
@@ -97,7 +97,7 @@ class Game
     if high_score == 0
       return "Its a tie!"
     end
-    return highest_player
+    return @players_array.index(highest_player) + 1 # Player One = 1 etc.
   end
 
   def clear_deck

@@ -22,7 +22,7 @@ describe '#game?' do
     player1.set_hand([PlayingCard.new('10', 'Spades'), PlayingCard.new('5', 'Diamonds'), PlayingCard.new('10', 'Hearts')])
     json_request = Request.new(1, '9', 3).to_json
     response = game.run_round(json_request)
-    expect(response.card_found).to eq (false)
+    expect(response.class).to eq (String)
   end
 
   it 'should run a round that returns a card' do
@@ -35,8 +35,7 @@ describe '#game?' do
     player1.set_hand([PlayingCard.new('10', 'Spades'), PlayingCard.new('5', 'Diamonds'), PlayingCard.new('10', 'Hearts')])
     json_request = Request.new(3, '10', 1).to_json
     response = game.run_round(json_request)
-    expect(response.card_found).to eq (true)
-    expect(response.card).to eq ("10 of Spades")
+    expect(response.class).to eq (String)
   end
 
   it 'should change the turn variable' do
@@ -94,5 +93,17 @@ describe '#game?' do
     expect(game.winner?).to eq true
     expect(game.who_is_winner).to eq ('Its a tie!')
     # Maybe test if one player should win.
+  end
+  it 'should say player1 has won the game.' do
+    game = Game.new(2)
+    player1 = game.find_player(1)
+    player2 = game.find_player(2)
+    game.clear_deck
+    player2.set_hand([PlayingCard.new('10', 'Hearts'), PlayingCard.new('10', 'Diamonds'), PlayingCard.new('10', 'Clubs')])
+    player1.set_hand([PlayingCard.new('10', 'Spades')])
+    json_request = Request.new(2, '10', 1).to_json
+    game.run_round(json_request)
+    expect(game.winner?).to eq true
+    expect(game.who_is_winner).to eq 2
   end
 end
