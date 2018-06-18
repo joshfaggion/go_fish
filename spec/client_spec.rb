@@ -17,19 +17,6 @@ describe '#client?' do
     @server.stop
   end
 
-  it 'creates a request from the client input' do
-    client1 = Client.new(port_number)
-    @server.create_game_lobby(3)
-    @server.accept_new_client
-    output = client1.take_in_output
-    client1.set_player_id(output)
-    test_string = "ask player2 for a 8"
-    request = client1.turn_into_request(test_string)
-    expect(request.fisher).to eq 1
-    expect(request.rank).to eq '8'
-    client1.close_socket
-  end
-
   it 'should be able to turn a json response into a normal response' do
     client1 = Client.new(port_number)
     json_response = Response.new(1, '5', 3, false).to_json
@@ -44,7 +31,7 @@ describe '#client?' do
     client1 = Client.new(port_number)
     @server.accept_new_client
     output = client1.take_in_output
-    expect(output).to eq "Welcome, we are currently waiting for more players. You are Player 1.\n0\n"
+    expect(output).to eq "Welcome, we are currently waiting for more players. You are Player 1.\n"
     client1.set_player_id(output)
     expect(client1.player_id).to eq 1
     client1.close_socket
@@ -93,16 +80,16 @@ describe '#client?' do
     @server.accept_new_client
     client3 = Client.new(port_number)
     @server.accept_new_client
-    response = Response.new(3, 'Jack', 2, false, 'Jack of Spades')
+    response = Response.new(3, 'jack', 2, false, 'jack of Spades')
     output1 = client1.take_in_output
     output2 = client2.take_in_output
     output3 = client3.take_in_output
     client1.set_player_id(output1)
     client2.set_player_id(output2)
     client3.set_player_id(output3)
-    expect(client2.use_response(response)).to eq ("Player 3 asked if you had a Jack, but luckily, you do not have one.")
-    expect(client1.use_response(response)).to eq ("Player 3 asked Player 2 for a Jack, but he did not have one.")
-    expect(client3.use_response(response)).to eq ("I'm sorry, but Player 2 did not have the card you asked for. Go Fish!")
+    expect(client2.use_response(response)).to eq ("Player 3 asked if you had a jack, but luckily, you do not have one.")
+    expect(client1.use_response(response)).to eq ("Player 3 asked Player 2 for a jack, but he did not have one.")
+    expect(client3.use_response(response)).to eq ("I'm sorry, but Player 2 did not have the card you asked for. You drew the jack of Spades.")
   end
 end
 

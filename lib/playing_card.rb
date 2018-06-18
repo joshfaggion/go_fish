@@ -1,6 +1,6 @@
 class PlayingCard
   attr_reader :rank, :suit
-  RANKS=%w[Ace 2 3 4 5 6 7 8 9 10 Jack Queen King]
+  RANKS=%w[ace 2 3 4 5 6 7 8 9 10 jack queen king]
 
   def initialize(rank, suit)
     @rank = rank

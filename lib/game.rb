@@ -35,15 +35,23 @@ class Game
     fisher = find_player(original_fisher)
     card = target.card_in_hand(desired_rank)
     if card == "Go Fish!"
-      next_turn
       card_refills
-      return Response.new(original_fisher, desired_rank, original_target, false, "Go Fish!").to_json
+      go_fish_card = go_fish(original_fisher)
+      next_turn
+      return Response.new(original_fisher, desired_rank, original_target, false, "#{go_fish_card.string_value}").to_json
     else
       fisher.take_card(card)
       fisher.pair_cards
       card_refills
       return Response.new(original_fisher, desired_rank, original_target, true, "#{card.string_value}").to_json
     end
+  end
+
+  def go_fish(player)
+    the_player = players_array[player - 1]
+    top_card = deck.use_top_card
+    the_player.take_card(top_card)
+    return top_card
   end
 
 # Finish fixing all the encapsulation.

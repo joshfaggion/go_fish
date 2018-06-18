@@ -51,6 +51,7 @@ class Player
           @player_hand.delete(target)
         end
       end
+      matches = []
     end
   end
 end

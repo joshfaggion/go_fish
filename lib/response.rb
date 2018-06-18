@@ -3,7 +3,7 @@ require 'pry'
 
 class Response
   attr_reader :fisher, :rank, :target, :card_found, :card
-  def initialize (fisher, rank, target, card_found, card='')
+  def initialize (fisher, rank, target, card_found, card ='')
     @fisher = fisher
     @rank = rank
     @target = target

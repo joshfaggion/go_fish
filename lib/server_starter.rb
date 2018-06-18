@@ -9,8 +9,9 @@ loop do
   game = server.accept_new_client
   if game
     Thread.new do
-      binding.pry
-      server.run_game
+      server.run_game(game)
     end
   end
+rescue
+  server.stop
 end

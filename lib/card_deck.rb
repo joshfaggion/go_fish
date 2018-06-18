@@ -4,7 +4,7 @@ require_relative 'playing_card.rb'
 class CardDeck
   def initialize
     @cards = []
-    ranks=%w[Ace 2 3 4 5 6 7 8 9 10 Jack Queen King]
+    ranks=%w[ace 2 3 4 5 6 7 8 9 10 jack queen king]
     suits=%w[Hearts Spades Diamonds Clubs]
     suits.each do |suit|
       ranks.each do |rank|

@@ -94,7 +94,7 @@ describe '#game?' do
     expect(game.who_is_winner).to eq ('Its a tie!')
     # Maybe test if one player should win.
   end
-  it 'should say player1 has won the game.' do
+  it 'should say player2 has won the game.' do
     game = Game.new(2)
     player1 = game.find_player(1)
     player2 = game.find_player(2)

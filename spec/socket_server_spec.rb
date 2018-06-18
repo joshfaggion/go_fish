@@ -57,9 +57,9 @@ describe '#SocketServer' do
       client2.take_in_output
       @server.set_player_hand(1, [PlayingCard.new('10', "Clubs"), PlayingCard.new('5', "Clubs")], game)
       @server.set_player_hand(2, [PlayingCard.new('Queen', "Hearts"), PlayingCard.new('Ace', "Diamonds")], game)
-      @server.show_player_cards(game)
-      expect(client1.take_in_output).to eq "10 of Clubs\n5 of Clubs\n"
-      expect(client2.take_in_output).to eq "Queen of Hearts\nAce of Diamonds\n"
+      @server.show_all_players_cards(game)
+      expect(client1.take_in_output).to eq "10 of Clubs, 5 of Clubs\n"
+      expect(client2.take_in_output).to eq "Queen of Hearts, Ace of Diamonds\n"
     end
 
     it 'should run a round completely' do
